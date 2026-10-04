@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Inquiries - Hebron Enterprises{% endblock %}
+
+{% block content %}
+<div class="container container-lg my-4">
+    <!-- Header & Breadcrumbs -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 border-bottom pb-3 g-2">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1">
+                    <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Inquiries</li>
+                </ol>
+            </nav>
+            <h1 class="fw-bold text-dark mb-0"><i class="bi bi-chat-left-text-fill text-primary me-2"></i>Customer Quotation Inquiries</h1>
+        </div>
+        <div>
+            <span class="badge bg-primary fs-6 px-3 py-2 rounded-pill"><i class="bi bi-inbox-fill me-1"></i>Total: {{ inquiries|length }}</span>
+        </div>
+    </div>
+
+    <!-- Table Card -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+        <div class="table-responsive">
+            <table class="table align-middle table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 5%">ID</th>
+                        <th style="width: 18%">Customer Name</th>
+                        <th style="width: 22%">Contact Info</th>
+                        <th style="width: 30%">Inquiry Message</th>
+                        <th style="width: 10%">Status</th>
+                        <th style="width: 15%" class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if inquiries %}
+                        {% for inquiry in inquiries %}
+                            <tr>
+                                <td><strong>#{{ inquiry.id }}</strong></td>
+                                <td>
+                                    <div class="fw-bold text-dark fs-6">{{ inquiry.name }}</div>
+                                    <div class="text-muted small"><i class="bi bi-clock me-1"></i>{{ inquiry.created_at.strftime('%d-%m-%Y %H:%M') }}</div>
+                                </td>
+                                <td>
+                                    <div class="small fw-semibold text-dark"><i class="bi bi-envelope-fill text-primary me-1"></i>{{ inquiry.email }}</div>
+                                    {% if inquiry.phone %}
+                                        <div class="small text-muted"><i class="bi bi-telephone-fill text-success me-1"></i>{{ inquiry.phone }}</div>
+                                    {% else %}
+                                        <div class="small text-muted opacity-50">No phone provided</div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <p class="mb-0 text-muted small" style="max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                        {{ inquiry.message }}
+                                    </p>
+                                </td>
+                                <td>
+                                    {% if inquiry.status == 'New' %}
+                                        <span class="status-badge badge-new"><i class="bi bi-envelope me-1"></i>New</span>
+                                    {% else %}
+                                        <span class="status-badge badge-replied"><i class="bi bi-check-all me-1"></i>Replied</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm">
+                                        <!-- View Modal Trigger Button -->
+                                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#inquiryModal{{ inquiry.id }}" title="View Full Message">
+                                            <i class="bi bi-eye-fill"></i> View
+                                        </button>
+                                        
+                                        {% if inquiry.status == 'New' %}
+                                            <a href="{{ url_for('update_inquiry', id=inquiry.id) }}" class="btn btn-success" title="Mark as Replied">
+                                                <i class="bi bi-check-lg"></i> Mark Replied
+                                            </a>
+                                        {% endif %}
+                                        
+                                        <a href="{{ url_for('delete_inquiry', id=inquiry.id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this inquiry record?');" title="Delete Inquiry">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </a>
+                                    </div>
+
+                                    <!-- Detail Modal -->
+                                    <div class="modal fade text-start" id="inquiryModal{{ inquiry.id }}" tabindex="-1" aria-labelledby="inquiryModalLabel{{ inquiry.id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content rounded-4 border-0 shadow">
+                                                <div class="modal-header bg-dark text-white rounded-top-4">
+                                                    <h5 class="modal-title fw-bold" id="inquiryModalLabel{{ inquiry.id }}">
+                                                        <i class="bi bi-chat-square-text-fill text-secondary me-2"></i>Inquiry #{{ inquiry.id }} Details
+                                                    </h5>
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body p-4">
+                                                    <div class="mb-3 border-bottom pb-3">
+                                                        <div class="text-muted small text-uppercase fw-semibold">Customer Name</div>
+                                                        <div class="fs-5 fw-bold text-dark">{{ inquiry.name }}</div>
+                                                    </div>
+                                                    <div class="row g-3 mb-3 border-bottom pb-3">
+                                                        <div class="col-6">
+                                                            <div class="text-muted small text-uppercase fw-semibold">Email Address</div>
+                                                            <div class="fw-semibold text-primary">{{ inquiry.email }}</div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="text-muted small text-uppercase fw-semibold">Phone Number</div>
+                                                            <div class="fw-semibold text-dark">{{ inquiry.phone or 'N/A' }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 border-bottom pb-3">
+                                                        <div class="text-muted small text-uppercase fw-semibold">Date Submitted</div>
+                                                        <div class="small text-dark">{{ inquiry.created_at.strftime('%B %d, %Y at %I:%M %p') }}</div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="text-muted small text-uppercase fw-semibold mb-2">Message Content</div>
+                                                        <div class="p-3 bg-light rounded-3 text-dark leading-relaxed" style="white-space: pre-wrap;">{{ inquiry.message }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer bg-light rounded-bottom-4">
+                                                    {% if inquiry.status == 'New' %}
+                                                        <a href="{{ url_for('update_inquiry', id=inquiry.id) }}" class="btn btn-success btn-sm px-3">
+                                                            <i class="bi bi-check-lg me-1"></i>Mark as Replied
+                                                        </a>
+                                                    {% endif %}
+                                                    <button type="button" class="btn btn-secondary btn-sm px-3" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox display-4 text-muted mb-2 d-block opacity-50"></i>
+                                No customer inquiries have been received yet.
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

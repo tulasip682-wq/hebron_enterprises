@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">My Dashboard</h2>
+
+    {% if inquiries %}
+
+    <table class="table table-bordered">
+
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Message</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for inquiry in inquiries %}
+
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ inquiry.message }}</td>
+            <td>{{ inquiry.status }}</td>
+            <td>{{ inquiry.created_at.strftime('%d-%m-%Y') }}</td>
+        </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+    <div class="alert alert-info">
+        You haven't submitted any inquiries yet.
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

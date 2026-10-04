@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.product_name }} - Hebron Enterprises{% endblock %}
+
+{% block content %}
+<div class="container container-lg my-5">
+    <!-- Breadcrumbs Navigation -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('products') }}">Products</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ product.product_name }}</li>
+        </ol>
+    </nav>
+
+    <!-- Product Layout Grid -->
+    <div class="row g-5 mb-5">
+        <!-- Product Image Section (Left) -->
+        <div class="col-lg-6">
+            <div class="details-image-container border rounded-4 shadow-sm bg-white p-4">
+                {% if product.image %}
+                    <img src="{{ url_for('static', filename='uploads/' + product.image) }}" class="img-fluid details-image" alt="{{ product.product_name }}">
+                {% else %}
+                    <div class="details-image d-flex flex-column align-items-center justify-content-center bg-light text-muted" style="min-height: 350px;">
+                        <i class="bi bi-box-seam display-1 mb-3 text-secondary"></i>
+                        <span class="fs-5">No Product Image Available</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Product Specs & Action Section (Right) -->
+        <div class="col-lg-6">
+            <span class="badge bg-primary px-3 py-2 text-uppercase mb-2">{{ product.category.category_name }}</span>
+            <h1 class="fw-bold text-dark mb-2">{{ product.product_name }}</h1>
+            <p class="fs-5 text-muted mb-4">Authorized C.R.I. Pumps Water Management Equipment</p>
+
+            <div class="card border-0 bg-light rounded-4 p-4 mb-4 shadow-sm">
+                <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-info-circle-fill me-2 text-primary"></i>Technical Specifications</h5>
+                
+                <table class="table table-borderless mb-0">
+                    <tbody>
+                        <tr>
+                            <td class="fw-semibold text-muted py-1" style="width: 30%;">Brand</td>
+                            <td class="text-dark py-1">: {{ product.brand }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-semibold text-muted py-1">Model Number</td>
+                            <td class="text-dark py-1">: <span class="badge bg-secondary text-dark">{{ product.model_number }}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-semibold text-muted py-1">Category</td>
+                            <td class="text-dark py-1">: {{ product.category.category_name }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-semibold text-muted py-1">Availability</td>
+                            <td class="py-1 fw-bold">
+                                {% if product.stock > 0 %}
+                                    <span class="text-success">: In Stock ({{ product.stock }} units available)</span>
+                                {% else %}
+                                    <span class="text-danger">: Out of Stock (Contact Dealer for Booking)</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-4">
+                <h5 class="fw-bold text-dark">Product Description</h5>
+                <p class="text-muted leading-relaxed">{{ product.description }}</p>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="d-grid gap-2">
+                <a href="{{ url_for('contact', product_id=product.id) }}" class="btn btn-theme-accent btn-lg text-white shadow-sm py-3">
+                    <i class="bi bi-chat-left-dots-fill me-2"></i>Inquire About This Product
+                </a>
+                <a href="{{ url_for('products') }}" class="btn btn-outline-secondary py-2 mt-2">
+                    <i class="bi bi-arrow-left me-2"></i>Back to Catalog
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products Section -->
+    {% if related_products %}
+        <div class="border-top pt-5">
+            <h3 class="fw-bold text-dark mb-4"><i class="bi bi-grid-fill text-primary me-2"></i>Related Pumping Systems</h3>
+            
+            <div class="row g-4">
+                {% for related in related_products %}
+                    <div class="col-md-4">
+                        <div class="card theme-card h-100">
+                            {% if related.image %}
+                                <img src="{{ url_for('static', filename='uploads/' + related.image) }}" class="card-img-top" alt="{{ related.product_name }}">
+                            {% else %}
+                                <div class="card-img-top bg-secondary text-white d-flex flex-column align-items-center justify-content-center" style="height: 180px;">
+                                    <i class="bi bi-box-seam display-5 text-muted mb-1"></i>
+                                    <span class="small text-muted">No Image</span>
+                                </div>
+                            {% endif %}
+                            
+                            <div class="theme-card-body d-flex flex-column">
+                                <h6 class="card-title fw-bold text-dark mb-1">{{ related.product_name }}</h6>
+                                <div class="d-flex justify-content-between mb-3 text-muted small">
+                                    <span>Model: <strong>{{ related.model_number }}</strong></span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <a href="{{ url_for('product_details', id=related.id) }}" class="btn btn-theme-outline btn-sm">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - Hebron Enterprises | Authorized C.R.I. Pumps Dealer{% endblock %}
+
+{% block content %}
+<div class="container container-lg my-5">
+    <!-- Header Title -->
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-dark">Get in Touch</h1>
+        <p class="text-muted">Have a question about C.R.I. Pumps? Send us an inquiry and our technical staff will contact you shortly.</p>
+    </div>
+
+    <div class="row g-5">
+        <!-- Contact Information (Left) -->
+        <div class="col-lg-5">
+            <div class="bg-light p-4 rounded-4 shadow-sm h-100 border border-light">
+                <h4 class="fw-bold text-dark mb-4"><i class="bi bi-building-fill text-primary me-2"></i>Hebron Enterprises</h4>
+                
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-3 d-flex align-items-start">
+                        <i class="bi bi-geo-alt-fill text-primary fs-5 me-3 mt-1"></i>
+                        <div>
+                            <h6 class="fw-bold mb-1">Our Address</h6>
+                            <span class="text-muted">123, Avinashi Road, Civil Aerodrome Post, Coimbatore, Tamil Nadu - 641014</span>
+                        </div>
+                    </li>
+                    <li class="mb-3 d-flex align-items-start">
+                        <i class="bi bi-telephone-fill text-primary fs-5 me-3 mt-1"></i>
+                        <div>
+                            <h6 class="fw-bold mb-1">Phone Number</h6>
+                            <span class="text-muted">+91 98765 43210</span>
+                        </div>
+                    </li>
+                    <li class="mb-3 d-flex align-items-start">
+                        <i class="bi bi-envelope-fill text-primary fs-5 me-3 mt-1"></i>
+                        <div>
+                            <h6 class="fw-bold mb-1">Email Address</h6>
+                            <span class="text-muted">info@hebronenterprises.com</span>
+                        </div>
+                    </li>
+                    <li class="mb-0 d-flex align-items-start">
+                        <i class="bi bi-clock-fill text-primary fs-5 me-3 mt-1"></i>
+                        <div>
+                            <h6 class="fw-bold mb-1">Business Hours</h6>
+                            <span class="text-muted">Monday - Saturday: 09:00 AM - 07:00 PM<br>Sunday: Closed</span>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- Map Placeholder -->
+                <div class="p-3 bg-white border border-light-subtle rounded-3 shadow-sm text-center">
+                    <h6 class="fw-bold text-dark mb-2"><i class="bi bi-map-fill text-success me-2"></i>Location Map</h6>
+                    <div class="bg-secondary bg-opacity-10 text-muted rounded-2 py-4 px-2" style="border: 2px dashed rgba(0, 0, 0, 0.1);">
+                        <i class="bi bi-geo-fill text-danger fs-1 mb-2"></i>
+                        <p class="small mb-0">Authorized C.R.I. Pumps Showroom Location<br>Coimbatore Industrial Hub Area</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form (Right) -->
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                <h3 class="fw-bold text-dark mb-4"><i class="bi bi-envelope-paper-fill text-primary me-2"></i>Send Pumping Inquiry</h3>
+                
+                <form id="contactForm" method="POST" novalidate>
+                    <div class="row g-3">
+                        <!-- Name Field -->
+                        <div class="col-md-12">
+                            <label for="name" class="form-label fw-semibold text-muted">Full Name <span class="text-danger">*</span></label>
+                            <input type="text" name="name" id="name" class="form-control custom-form-control" placeholder="Enter your full name" value="{{ name or '' }}" required>
+                            <div class="invalid-feedback">Name field is required.</div>
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="col-md-6">
+                            <label for="email" class="form-label fw-semibold text-muted">Email Address <span class="text-danger">*</span></label>
+                            <input type="email" name="email" id="email" class="form-control custom-form-control" placeholder="example@domain.com" value="{{ email or '' }}" required>
+                            <div class="invalid-feedback">Please enter a valid email address.</div>
+                        </div>
+
+                        <!-- Phone Field -->
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label fw-semibold text-muted">Phone Number</label>
+                            <input type="tel" name="phone" id="phone" class="form-control custom-form-control" placeholder="+91 99999 99999" value="{{ phone or '' }}">
+                        </div>
+
+                        <!-- Message Field -->
+                        <div class="col-md-12">
+                            <label for="message" class="form-label fw-semibold text-muted">Your Inquiry Message <span class="text-danger">*</span></label>
+                            <textarea name="message" id="message" rows="5" class="form-control custom-form-control" placeholder="Detail your pumping requirements (head range, application, etc.)..." required>{% if message %}{{ message }}{% elif prefill_msg %}{{ prefill_msg }}{% endif %}</textarea>
+                            <div class="invalid-feedback">Please specify your inquiry message.</div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="col-md-12 mt-4">
+                            <button type="submit" class="btn btn-theme-primary btn-lg w-100 shadow-sm py-2">
+                                <i class="bi bi-send-fill me-2"></i>Submit Inquiry Form
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Client-side Form Validation -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('contactForm');
+        
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+</script>
+{% endblock %}

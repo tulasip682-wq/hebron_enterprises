@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Category - Hebron Enterprises{% endblock %}
+
+{% block content %}
+<div class="container container-lg my-4">
+    <!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('categories') }}">Categories</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit Category</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                <h3 class="fw-bold text-dark mb-4"><i class="bi bi-pencil-square text-primary me-2"></i>Edit Product Category</h3>
+                
+                <form id="editCategoryForm" method="POST" novalidate>
+                    <!-- Name Field -->
+                    <div class="mb-3">
+                        <label for="category_name" class="form-label fw-semibold text-muted">Category Name <span class="text-danger">*</span></label>
+                        <input type="text" name="category_name" id="category_name" class="form-control custom-form-control" placeholder="e.g. Submersible Pumps" value="{{ category.category_name }}" required>
+                        <div class="invalid-feedback">Please enter a category name.</div>
+                    </div>
+
+                    <!-- Description Field -->
+                    <div class="mb-4">
+                        <label for="description" class="form-label fw-semibold text-muted">Description</label>
+                        <textarea name="description" id="description" rows="4" class="form-control custom-form-control" placeholder="Briefly describe what pumps belong to this category...">{{ category.description or '' }}</textarea>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-theme-primary px-4 py-2">
+                            <i class="bi bi-save-fill me-1"></i>Update Category
+                        </button>
+                        <a href="{{ url_for('categories') }}" class="btn btn-theme-outline px-4 py-2">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('editCategoryForm');
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+</script>
+{% endblock %}

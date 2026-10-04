@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Hebron Enterprises | Authorized C.R.I. Pumps Dealer & Distributor{% endblock %}
+
+{% block content %}
+<!-- Premium Hero Section -->
+<section class="hero-section text-center text-md-start">
+    <div class="container container-lg">
+        <div class="row align-items-center g-5">
+            <div class="col-md-7">
+                <span class="badge bg-secondary mb-3 px-3 py-2 text-dark font-weight-bold text-uppercase tracking-wider">Authorized C.R.I. Dealer</span>
+                <h1 class="display-3 hero-title mb-3">Authorized C.R.I. Pumps Dealer</h1>
+                <p class="hero-subtitle mb-4">Hebron Enterprises is Coimbatore's trusted dealer and distributor of genuine C.R.I. pumps for domestic, agricultural, solar, and industrial operations. Reliable flow engineered for life.</p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-md-start">
+                    <a href="{{ url_for('products') }}" class="btn btn-theme-accent btn-lg px-4 shadow">
+                        <i class="bi bi-grid me-2"></i>Browse Products
+                    </a>
+                    <a href="{{ url_for('contact') }}" class="btn btn-outline-light btn-lg px-4">
+                        <i class="bi bi-envelope me-2"></i>Send Inquiry
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-5 d-none d-md-block text-center">
+                <i class="bi bi-droplet-half text-secondary display-1" style="font-size: 15rem; filter: drop-shadow(0px 10px 20px rgba(148,210,189,0.3));"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Company Highlight Section -->
+<section class="container container-lg my-5">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-6">
+            <h2 class="fw-bold mb-3">About Hebron Enterprises</h2>
+            <p class="text-muted leading-relaxed">
+                Established in Coimbatore, Hebron Enterprises has grown to become a leading dealer and distributor of C.R.I. pumps and water management accessories. We are committed to offering the best pumping solutions to satisfy domestic, farming, and industrial needs.
+            </p>
+            <p class="text-muted">
+                Our solutions range from small high-pressure home booster units to heavy-duty industrial centrifugal pumps and modern off-grid solar borewell setups.
+            </p>
+            <a href="{{ url_for('about') }}" class="btn btn-theme-outline mt-2">Learn More About Us</a>
+        </div>
+        <div class="col-lg-6">
+            <div class="p-4 bg-light rounded-4 border-start border-4 border-primary">
+                <h5 class="fw-bold text-primary mb-3"><i class="bi bi-patch-check-fill me-2"></i>Our C.R.I. Distributorship</h5>
+                <p class="small text-muted mb-0">
+                    C.R.I. Pumps is a globally recognized brand renowned for manufacturing energy-efficient, robust pumping solutions. As an authorized distributor, Hebron Enterprises supplies 100% genuine pump models with manufacturer warranty, complete spare parts availability, and professional repair services.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="bg-light py-5 rounded-4 shadow-sm mb-5">
+    <div class="container container-lg">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-dark">Featured Pumping Systems</h2>
+            <p class="text-muted">Discover our handpicked C.R.I. pump models recommended for high efficiency and lifetime durability</p>
+        </div>
+        
+        <div class="row g-4">
+            {% if products %}
+                {% for product in products %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card theme-card">
+                            {% if product.image %}
+                                <img src="{{ url_for('static', filename='uploads/' + product.image) }}" class="card-img-top" alt="{{ product.product_name }}">
+                            {% else %}
+                                <div class="card-img-top bg-secondary text-white d-flex flex-column align-items-center justify-content-center">
+                                    <i class="bi bi-box-seam display-4 text-muted mb-2"></i>
+                                    <span class="small text-muted">Image Not Available</span>
+                                </div>
+                            {% endif %}
+                            
+                            <div class="theme-card-body">
+                                <span class="product-tag">{{ product.category.category_name }}</span>
+                                <h5 class="card-title fw-bold text-dark mb-1">{{ product.product_name }}</h5>
+                                <div class="d-flex justify-content-between mb-3 text-muted small">
+                                    <span>Brand: <strong>{{ product.brand }}</strong></span>
+                                    <span>Model: <strong>{{ product.model_number }}</strong></span>
+                                </div>
+                                <p class="card-text text-muted text-sm mb-4">{{ product.description | truncate(110) }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="{{ url_for('product_details', id=product.id) }}" class="btn btn-theme-outline btn-sm">
+                                        View Details
+                                    </a>
+                                    <a href="{{ url_for('contact', product_id=product.id) }}" class="btn btn-theme-primary btn-sm">
+                                        Inquire Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center my-4">
+                    <p class="text-muted">No products available in the database. Seed data will appear shortly.</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{{ url_for('products') }}" class="btn btn-theme-primary px-4 py-2">
+                <i class="bi bi-grid-3x3-gap-fill me-2"></i>View All Products
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="container container-lg my-5 py-3">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Why Hebron Enterprises?</h2>
+        <p class="text-muted">The trusted partner for farmers, builders, and households in Coimbatore</p>
+    </div>
+    
+    <div class="row g-4 text-center">
+        <div class="col-md-4">
+            <div class="p-4 border border-light-subtle rounded-4 h-100 bg-white shadow-sm">
+                <div class="fs-1 text-primary mb-3"><i class="bi bi-shield-fill-check"></i></div>
+                <h5 class="fw-bold">100% Genuine C.R.I. Products</h5>
+                <p class="small text-muted mb-0">Direct supply from C.R.I. factory. Authentic parts, full certification, and verified performance ratings.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 border border-light-subtle rounded-4 h-100 bg-white shadow-sm">
+                <div class="fs-1 text-primary mb-3"><i class="bi bi-clock-history"></i></div>
+                <h5 class="fw-bold">Prompt Delivery & Installation</h5>
+                <p class="small text-muted mb-0">Fast response times on quotation requests. Qualified technicians to perform site checks and set up pumps.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 border border-light-subtle rounded-4 h-100 bg-white shadow-sm">
+                <div class="fs-1 text-primary mb-3"><i class="bi bi-wrench-adjustable-circle"></i></div>
+                <h5 class="fw-bold">Excellent After-Sales Support</h5>
+                <p class="small text-muted mb-0">We assist in warranty claiming, supply spare impellers, seals, and offer scheduled pump maintenance.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

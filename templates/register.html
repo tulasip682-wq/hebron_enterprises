@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Register Admin - Hebron Enterprises{% endblock %}
+
+{% block content %}
+<div class="container container-lg my-5 py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+            <!-- Register Card -->
+            <div class="card border-0 shadow rounded-4 overflow-hidden bg-white">
+                <div class="bg-dark text-center py-4 border-bottom border-warning border-4" style="background: linear-gradient(135deg, #001219 0%, #0a9396 100%);">
+                    <span class="fs-1 text-white"><i class="bi bi-person-fill-add text-secondary"></i></span>
+                    <h4 class="text-white fw-bold mt-2">Admin Registration</h4>
+                    <p class="small text-secondary mb-0">Create new admin credentials for viva evaluation</p>
+                </div>
+                
+                <div class="card-body p-4 p-md-5">
+                    <form id="registerForm" method="POST" novalidate>
+                        <!-- Username Field -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label fw-semibold text-muted">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-person-fill"></i></span>
+                                <input type="text" name="username" id="username" class="form-control custom-form-control border-start-0" placeholder="Create username" required autofocus>
+                                <div class="invalid-feedback">Username field is required.</div>
+                            </div>
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-semibold text-muted">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-key-fill"></i></span>
+                                <input type="password" name="password" id="password" class="form-control custom-form-control border-start-0" placeholder="Create password" required>
+                                <div class="invalid-feedback">Password field is required.</div>
+                            </div>
+                        </div>
+
+                        <!-- Register Button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-theme-accent btn-lg text-white shadow-sm py-2">
+                                <i class="bi bi-person-check-fill me-2"></i>Register Admin
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="card-footer bg-light border-0 py-3 text-center">
+                    <p class="mb-0 small text-muted">Already have an admin account? <a href="{{ url_for('login') }}" class="fw-bold">Sign In</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('registerForm');
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+</script>
+{% endblock %}

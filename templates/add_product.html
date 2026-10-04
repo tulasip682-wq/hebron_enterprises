@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Add Product - Hebron Enterprises{% endblock %}
+
+{% block content %}
+<div class="container container-lg my-4">
+    <!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('admin_products') }}">Products</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add Product</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                <h3 class="fw-bold text-dark mb-4"><i class="bi bi-plus-circle-fill text-success me-2"></i>Add Product to Catalog</h3>
+                
+                <form id="addProductForm" method="POST" enctype="multipart/form-data" novalidate>
+                    <div class="row g-3">
+                        <!-- Product Name -->
+                        <div class="col-md-12">
+                            <label for="product_name" class="form-label fw-semibold text-muted">Product Name <span class="text-danger">*</span></label>
+                            <input type="text" name="product_name" id="product_name" class="form-control custom-form-control" placeholder="e.g. C.R.I. Submersible V4" value="{{ product_name or '' }}" required>
+                            <div class="invalid-feedback">Product Name is required.</div>
+                        </div>
+
+                        <!-- Brand -->
+                        <div class="col-md-6">
+                            <label for="brand" class="form-label fw-semibold text-muted">Brand <span class="text-danger">*</span></label>
+                            <input type="text" name="brand" id="brand" class="form-control custom-form-control" placeholder="e.g. C.R.I." value="{{ brand or 'C.R.I.' }}" required>
+                            <div class="invalid-feedback">Brand is required.</div>
+                        </div>
+
+                        <!-- Model Number -->
+                        <div class="col-md-6">
+                            <label for="model_number" class="form-label fw-semibold text-muted">Model Number <span class="text-danger">*</span></label>
+                            <input type="text" name="model_number" id="model_number" class="form-control custom-form-control" placeholder="e.g. V4-AG-20" value="{{ model_number or '' }}" required>
+                            <div class="invalid-feedback">Model Number is required.</div>
+                        </div>
+
+                        <!-- Stock Quantity -->
+                        <div class="col-md-6">
+                            <label for="stock" class="form-label fw-semibold text-muted">Stock Quantity <span class="text-danger">*</span></label>
+                            <input type="number" name="stock" id="stock" class="form-control custom-form-control" placeholder="e.g. 10" value="{{ stock or '0' }}" min="0" required>
+                            <div class="invalid-feedback">Stock Quantity is required and must be 0 or more.</div>
+                        </div>
+
+                        <!-- Category Select -->
+                        <div class="col-md-12">
+                            <label for="category_id" class="form-label fw-semibold text-muted">Category <span class="text-danger">*</span></label>
+                            <select name="category_id" id="category_id" class="form-select custom-form-control" required>
+                                <option value="">Select Category</option>
+                                {% for cat in categories %}
+                                    <option value="{{ cat.id }}" {% if category_id == cat.id %}selected{% endif %}>{{ cat.category_name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="invalid-feedback">Please select a product category.</div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="col-md-12">
+                            <label for="description" class="form-label fw-semibold text-muted">Product Description</label>
+                            <textarea name="description" id="description" rows="4" class="form-control custom-form-control" placeholder="Detail pump metrics, performance curves, head range, etc...">{{ description or '' }}</textarea>
+                        </div>
+
+                        <!-- Image File Upload -->
+                        <div class="col-md-12">
+                            <label for="image" class="form-label fw-semibold text-muted">Product Image</label>
+                            <input type="file" name="image" id="image" class="form-control custom-form-control" accept="image/*">
+                            <div class="form-text">Accepted formats: JPG, PNG, GIF. Max file size: 5MB.</div>
+                            
+                            <!-- Image Preview Box -->
+                            <div class="mt-2">
+                                <span class="small text-muted d-block mb-1">Image Preview:</span>
+                                <div class="image-preview-box" id="previewContainer">
+                                    <span class="text-muted small" id="previewPlaceholder">No image chosen</span>
+                                    <img id="imagePreview" src="" alt="Selected Image" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="col-12 mt-4 d-flex gap-2">
+                            <button type="submit" class="btn btn-theme-primary px-4 py-2">
+                                <i class="bi bi-save-fill me-1"></i>Save Product
+                            </button>
+                            <a href="{{ url_for('admin_products') }}" class="btn btn-theme-outline px-4 py-2">
+                                Cancel
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Image Preview JS script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.getElementById('image');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewPlaceholder = document.getElementById('previewPlaceholder');
+        const form = document.getElementById('addProductForm');
+
+        // Form Validation
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+
+        // Preview Logic
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.addEventListener('load', function() {
+                    imagePreview.setAttribute('src', this.result);
+                    imagePreview.style.display = 'block';
+                    previewPlaceholder.style.display = 'none';
+                });
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = 'none';
+                previewPlaceholder.style.display = 'block';
+            }
+        });
+    });
+</script>
+{% endblock %}

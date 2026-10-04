@@ -1,0 +1,20 @@
+# Python virtual environment
+venv/
+ENV/
+env/
+.env
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Vercel & build artifacts
+.vercel/
+dist/
+build/
+
+# Instance database (seed data is initialized automatically in code)
+instance/database.db
+*.sqlite3
+*.db-journal

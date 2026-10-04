@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Products Catalog - Hebron Enterprises | C.R.I. Pumps{% endblock %}
+
+{% block content %}
+<div class="container container-lg my-4">
+    <!-- Catalog Header -->
+    <div class="mb-5 text-center text-md-start">
+        <h1 class="fw-bold text-dark mb-1">C.R.I. Pumping Systems Catalog</h1>
+        <p class="text-muted">Explore our complete range of certified water management solutions and pumps</p>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="search-bar-container">
+        <form action="{{ url_for('products') }}" method="GET" class="row g-3">
+            <!-- Search bar -->
+            <div class="col-lg-6 col-md-5">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" name="search" class="form-control border-start-0 py-2" placeholder="Search by name, model, or brand..." value="{{ search_query or '' }}">
+                </div>
+            </div>
+            
+            <!-- Category Filter Dropdown -->
+            <div class="col-lg-4 col-md-4">
+                <select name="category" class="form-select py-2">
+                    <option value="">All Categories</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat.id }}" {% if selected_category == cat.id|string %}selected{% endif %}>{{ cat.category_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- Filter & Clear Buttons -->
+            <div class="col-lg-2 col-md-3 d-flex gap-2">
+                <button type="submit" class="btn btn-theme-primary w-100 py-2">
+                    Filter
+                </button>
+                {% if search_query or selected_category %}
+                    <a href="{{ url_for('products') }}" class="btn btn-theme-outline w-100 py-2 text-center d-flex align-items-center justify-content-center">
+                        Clear
+                    </a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <!-- Products Section -->
+    <div class="row">
+        <!-- Products Grid (12 Columns Total) -->
+        <div class="col-12">
+            <div class="row g-4">
+                {% if products %}
+                    {% for product in products %}
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card theme-card h-100">
+                                {% if product.image %}
+                                    <img src="{{ url_for('static', filename='uploads/' + product.image) }}" class="card-img-top" alt="{{ product.product_name }}">
+                                {% else %}
+                                    <div class="card-img-top bg-secondary text-white d-flex flex-column align-items-center justify-content-center">
+                                        <i class="bi bi-box-seam display-4 text-muted mb-2"></i>
+                                        <span class="small text-muted">Image Not Available</span>
+                                    </div>
+                                {% endif %}
+                                
+                                <div class="theme-card-body d-flex flex-column">
+                                    <span class="product-tag">{{ product.category.category_name }}</span>
+                                    <h5 class="card-title fw-bold text-dark mb-1">{{ product.product_name }}</h5>
+                                    <div class="d-flex justify-content-between mb-3 text-muted small">
+                                        <span>Brand: <strong>{{ product.brand }}</strong></span>
+                                        <span>Model: <strong>{{ product.model_number }}</strong></span>
+                                    </div>
+                                    <p class="card-text text-muted small mb-4 flex-grow-1">{{ product.description | truncate(130) }}</p>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center mt-auto border-top pt-3">
+                                        <a href="{{ url_for('product_details', id=product.id) }}" class="btn btn-theme-outline btn-sm">
+                                            View Details
+                                        </a>
+                                        <a href="{{ url_for('contact', product_id=product.id) }}" class="btn btn-theme-primary btn-sm">
+                                            Inquire Now
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12 text-center py-5 bg-light rounded-4">
+                        <i class="bi bi-search display-3 text-muted mb-3 d-block"></i>
+                        <h4 class="fw-bold text-dark">No Products Found</h4>
+                        <p class="text-muted mb-0">We couldn't find any products matching your current search criteria.</p>
+                        <a href="{{ url_for('products') }}" class="btn btn-theme-primary mt-3 px-4">View All Products</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

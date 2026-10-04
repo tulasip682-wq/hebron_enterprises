@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_from_directory
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import os
 
 from models import db, Admin, User, Category, Product, Inquiry
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static")
 
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "hebron_super_secure_secret_key")
 

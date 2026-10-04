@@ -9,6 +9,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Node modules & npm
+node_modules/
+package-lock.json
+
 # Vercel & build artifacts
 .vercel/
 dist/

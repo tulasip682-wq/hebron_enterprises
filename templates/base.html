@@ -11,8 +11,344 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <!-- Custom Style Sheet -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Custom Style Sheet Link -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=3">
+
+    <!-- Embedded Theme Styles for Guaranteed Instant Rendering -->
+    <style>
+/* Hebron Enterprises - Style System */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --primary-color: #0d6efd;
+    --theme-primary: #005f73;
+    --theme-primary-hover: #0a9396;
+    --theme-secondary: #94d2bd;
+    --theme-dark: #001219;
+    --theme-light: #f8f9fa;
+    --theme-accent: #ee9b00;
+    --theme-accent-hover: #ca6702;
+    --theme-text-dark: #1d2d44;
+    --theme-text-light: #f4f6f9;
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --hover-shadow: 0 15px 35px rgba(0, 95, 115, 0.15);
+    --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    color: var(--theme-text-dark);
+    background-color: #fafdff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Glassmorphism Navbar */
+.navbar-custom {
+    background: rgba(0, 18, 25, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--theme-primary);
+    padding: 0.8rem 1.5rem;
+    transition: var(--transition-smooth);
+}
+
+.navbar-custom .navbar-brand {
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: var(--theme-light) !important;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-custom .navbar-brand span {
+    color: var(--theme-secondary) !important;
+}
+
+.navbar-custom .nav-link {
+    font-weight: 500;
+    color: rgba(248, 249, 250, 0.85) !important;
+    margin: 0 0.3rem;
+    padding: 0.5rem 1rem !important;
+    border-radius: 6px;
+    transition: var(--transition-smooth);
+}
+
+.navbar-custom .nav-link:hover, 
+.navbar-custom .nav-link.active {
+    color: var(--theme-light) !important;
+    background: rgba(148, 210, 189, 0.15);
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, rgba(0, 18, 25, 0.95) 0%, rgba(0, 95, 115, 0.9) 100%) !important;
+    color: var(--theme-text-light) !important;
+    padding: 7rem 0 6rem 0;
+    border-radius: 0 0 50px 50px;
+    margin-bottom: 3rem;
+}
+
+.hero-title {
+    font-weight: 800;
+    font-size: 3rem;
+    line-height: 1.2;
+    color: #ffffff !important;
+}
+
+.hero-subtitle {
+    font-weight: 300;
+    color: var(--theme-secondary) !important;
+    font-size: 1.25rem;
+}
+
+/* Modern Cards */
+.theme-card {
+    background: #ffffff;
+    border: none;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition-smooth);
+    overflow: hidden;
+    height: 100%;
+}
+
+.theme-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--hover-shadow);
+}
+
+.theme-card .card-img-top {
+    height: 220px;
+    object-fit: cover;
+    border-bottom: 3px solid var(--theme-secondary);
+}
+
+.theme-card-body {
+    padding: 1.5rem;
+}
+
+.product-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--theme-primary);
+    background-color: rgba(0, 95, 115, 0.08);
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 0.8rem;
+}
+
+/* Buttons */
+.btn-theme-primary {
+    background-color: var(--theme-primary) !important;
+    border-color: var(--theme-primary) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.6rem 1.5rem;
+    transition: var(--transition-smooth);
+}
+
+.btn-theme-primary:hover {
+    background-color: var(--theme-primary-hover) !important;
+    border-color: var(--theme-primary-hover) !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+.btn-theme-accent {
+    background-color: var(--theme-accent) !important;
+    border-color: var(--theme-accent) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.6rem 1.5rem;
+    transition: var(--transition-smooth);
+}
+
+.btn-theme-accent:hover {
+    background-color: var(--theme-accent-hover) !important;
+    border-color: var(--theme-accent-hover) !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+.btn-theme-outline {
+    border: 2px solid var(--theme-primary) !important;
+    color: var(--theme-primary) !important;
+    background: transparent !important;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.5rem 1.4rem;
+    transition: var(--transition-smooth);
+}
+
+.btn-theme-outline:hover {
+    background-color: var(--theme-primary) !important;
+    color: #ffffff !important;
+}
+
+/* Sticky Footer */
+footer {
+    background-color: var(--theme-dark) !important;
+    color: rgba(248, 249, 250, 0.7) !important;
+    padding: 3rem 0 1.5rem 0;
+    margin-top: auto;
+    border-top: 5px solid var(--theme-primary);
+}
+
+footer a {
+    color: var(--theme-secondary) !important;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+footer a:hover {
+    color: #ffffff !important;
+}
+
+/* Details Page styles */
+.details-image-container {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.details-image {
+    max-height: 450px;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+/* Badges and Tables */
+.status-badge {
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.badge-new {
+    background-color: rgba(13, 110, 253, 0.15);
+    color: #0d6efd;
+}
+
+.badge-replied {
+    background-color: rgba(25, 135, 84, 0.15);
+    color: #198754;
+}
+
+/* Dashboard Statistics Cards */
+.stat-card {
+    border: none;
+    border-radius: 16px;
+    padding: 1.5rem;
+    color: #ffffff;
+    box-shadow: var(--card-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.stat-card.blue {
+    background: linear-gradient(135deg, #0d6efd, #0a58ca);
+}
+
+.stat-card.green {
+    background: linear-gradient(135deg, #198754, #146c43);
+}
+
+.stat-card.orange {
+    background: linear-gradient(135deg, #fd7e14, #d95f02);
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+.stat-label {
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    opacity: 0.9;
+}
+
+/* Admin Styles */
+.admin-table {
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+}
+
+.admin-table th {
+    background-color: var(--theme-dark);
+    color: #ffffff;
+    font-weight: 600;
+    border: none;
+}
+
+/* Form Styles */
+.custom-form-control {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    transition: var(--transition-smooth);
+}
+
+.custom-form-control:focus {
+    border-color: var(--theme-primary);
+    box-shadow: 0 0 0 0.25rem rgba(0, 95, 115, 0.15);
+}
+
+/* Image preview box */
+.image-preview-box {
+    width: 150px;
+    height: 150px;
+    border: 2px dashed rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #f8f9fa;
+    margin-top: 10px;
+}
+
+.image-preview-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+/* Search bar styling */
+.search-bar-container {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+    </style>
 </head>
 <body>
 
